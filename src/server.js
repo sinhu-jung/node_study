@@ -26,13 +26,28 @@ const handleListen = () => console.log(`Listening on http://localhost:3000`);
 const server = http.createServer(app);
 const wss = new WebSocket.Server({ server });
 
+const sockets = [];
+
 wss.on("connection", (socket) => {
+  sockets.push(socket);
+  socket["nickname"] = "Anon";
   console.log("Connected to Browser");
   socket.on("close", () => console.log("DisConnected from the Browser"));
   socket.on("message", (message) => {
-    console.log(message.toString("utf-8"));
+    const parsed = JSON.parse(message.toString("utf-8"));
+    switch (parsed.type) {
+      case "new_message":
+        sockets.forEach((aSocket) =>
+          aSocket.send(`${socket.nickname} : ${parsed.payload}`)
+        );
+        break;
+      case "nickname":
+        socket["nickname"] = parsed.payload;
+        break;
+      default:
+        break;
+    }
   });
-  socket.send("hello!!!");
 });
 
 server.listen(3000, handleListen);
