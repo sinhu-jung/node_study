@@ -1,6 +1,6 @@
 # Node Study
 
-노마드 코더 무료 강의 보고 공부중
+노마드 코더 무료 강의 보고 소캣 공부
 
 ### 폴더 구조
 
@@ -11,9 +11,12 @@
     |      | --- public
     |      |       | --- js
     |      |       |      | --- app.js
+    |      |       |      | --- app_chat.js
     |      | --- views
     |      |       | --- home.pug
+    |      |       | --- home_chat.pug
     |      | --- server.js
+    |      | --- server_chat.js
     | --- .gitignore
     | --- babel.config.json
     | --- nodemon.json
@@ -42,8 +45,12 @@
     "nodemon": "^2.0.20"
   },
   "dependencies": {
+    "@socket.io/admin-ui": "^0.5.1",
     "express": "^4.18.2",
-    "pug": "^3.0.2"
+    "localtunnel": "^2.0.2",
+    "pug": "^3.0.2",
+    "socket.io": "^4.6.0",
+    "ws": "^8.12.0"
   }
 }
 ```
@@ -52,4 +59,5 @@
 
 ```bash
 $ npm run dev
+$ lt --port 3000  ==> localtunnel 실행
 ```
