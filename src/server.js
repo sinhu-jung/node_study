@@ -26,4 +26,20 @@ const handleListen = () => console.log(`Listening on http://localhost:3000`);
 const httpServer = http.createServer(app);
 const wsServer = new Server(httpServer);
 
+wsServer.on("connection", (socket) => {
+  socket.on("join_room", (roonName) => {
+    socket.join(roonName);
+    socket.to(roonName).emit("welcome");
+  });
+  socket.on("offer", (offer, roonName) => {
+    socket.to(roonName).emit("offer", offer);
+  });
+  socket.on("answer", (answer, roonName) => {
+    socket.to(roonName).emit("answer", answer);
+  });
+  socket.on("ice", (ice, roonName) => {
+    socket.to(roonName).emit("ice", ice);
+  });
+});
+
 httpServer.listen(3000, handleListen);
